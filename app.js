@@ -5,8 +5,10 @@ async function main() {
     let recentSubmissions = await leetcode_api.getRecentSubmission();
     recentSubmissions = recentSubmissions.data.recentAcSubmissionList;
     for(const problems of recentSubmissions) {
+        let content = await leetcode_api.getProblemDesc(problems.titleSlug);
+        // console.log(content.data.question.content);
         let code = await leetcode_api.getSubmittedCode(problems.id);
-        gitlab_api.createCommit({titleSlug: problems.titleSlug,
+        gitlab_api.createCommitCode({titleSlug: problems.titleSlug,
                                 timeStamp:problems.timestamp,
                                 code:code.data.submissionDetails.code })
                     .then(results => {
@@ -16,6 +18,17 @@ async function main() {
                     })
                     .catch(error => {
                         console.log(`Error trying to insert into ${problems.titleSlug}`);
+                        console.log(problems);
+                        console.log(error);
+                    });
+        gitlab_api.createCommitReadme(content.data.question.content, problems.titleSlug)
+                    .then(results => {
+                        if(results.message === 'A file with this name already exists') {
+                            console.log(`${problems.titleSlug}-${problems.timestamp}.cpp Already Exists`);
+                        } 
+                    })
+                    .catch(error => {
+                        console.log(`Error trying to insert readme.md into ${problems.titleSlug}`);
                         console.log(problems);
                         console.log(error);
                     });

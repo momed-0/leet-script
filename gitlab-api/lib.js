@@ -1,7 +1,30 @@
 const makeRequest = require("../request/makeRequest")
 
-
-async function createCommit(problems) {
+async function createCommitReadme(content,titleSlug) {
+  const data = JSON.stringify({
+    branch: 'main',
+    commit_message: `Created Readme.md for ${titleSlug}`,
+    actions: [
+      {
+        action: 'create',
+        file_path:`${titleSlug}/readme.md`,
+        content: `${content}`
+      }
+    ]
+  });
+  const options = {
+    hostname: 'gitlab.com',
+    path: `/api/v4/projects/${process.env.gitlabProjectID}/repository/commits`,
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(data),
+      'PRIVATE-TOKEN': process.env.gitlabUserToken
+  }
+  };
+  return await makeRequest.makeRESTAPIRequest(options,data);
+}
+async function createCommitCode(problems) {
   const data = JSON.stringify({
     branch: 'main',
     commit_message: `Created ${problems.titleSlug} folder`,
@@ -28,5 +51,6 @@ async function createCommit(problems) {
 
 
 module.exports = {
-  createCommit
+  createCommitCode,
+  createCommitReadme
 }
