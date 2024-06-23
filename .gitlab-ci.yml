@@ -1,0 +1,6 @@
+image: node:latest
+
+
+build:
+  script:
+    - node app.js
