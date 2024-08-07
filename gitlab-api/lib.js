@@ -1,14 +1,14 @@
 const makeRequest = require("../request/makeRequest")
 
-async function createCommitReadme(content,titleSlug) {
+async function createCommitReadme(problems) {
   const data = JSON.stringify({
     branch: 'main',
-    commit_message: `Created Readme.md for ${titleSlug}`,
+    commit_message: `Created Readme.md for ${problems.titleSlug}`,
     actions: [
       {
         action: 'create',
-        file_path:`${titleSlug}/readme.md`,
-        content: `${content}`
+        file_path:`${problems.titleSlug}/readme.md`,
+        content: `${problems.content}`
       }
     ]
   });
