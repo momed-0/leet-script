@@ -14,18 +14,23 @@ async function main() {
                     .then(results => {
                         if(results.message === 'A file with this name already exists') {
                             console.log(`${problems.titleSlug}-${problems.timestamp}.cpp Already Exists`);
-                        } 
+                        } else {
+                            console.log(`Created submitted Code for ${problems.titleSlug}`);
+                        }
                     })
                     .catch(error => {
                         console.log(`Error trying to insert into ${problems.titleSlug}`);
                         console.log(problems);
                         console.log(error);
                     });
-        gitlab_api.createCommitReadme(content.data.question.content, problems.titleSlug)
+        gitlab_api.createCommitReadme({titleSlug: problems.titleSlug,
+                                content:content.data.question.content })
                     .then(results => {
                         if(results.message === 'A file with this name already exists') {
-                            console.log(`${problems.titleSlug}-${problems.timestamp}.cpp Already Exists`);
-                        } 
+                            console.log(`readme.md file Already Exists for ${problems.titleSlug}`);
+                        } else {
+                            console.log(`Description File Written for ${problems.titleSlug}`);
+                        }
                     })
                     .catch(error => {
                         console.log(`Error trying to insert readme.md into ${problems.titleSlug}`);
