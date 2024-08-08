@@ -1,6 +1,22 @@
 const makeRequest = require('../request/makeRequest');
 
 
+async function buildGraphQL(query, variables,operationName) {
+  const requestBody = JSON.stringify({
+        query,
+        variables,
+        operationName
+      });
+  const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: requestBody
+      };
+      const endpoint = `${process.env.endpoint}`;
+      return makeRequest.makeGRAPHQLRequest(endpoint,options,requestBody); 
+    }
 
 async function getProblemDesc(titleSlug) {
   const query = `
@@ -15,21 +31,7 @@ async function getProblemDesc(titleSlug) {
   const variables = {
         titleSlug: `${titleSlug}`
       };
-  const requestBody = JSON.stringify({
-        query,
-        variables,
-        operationName: "questionContent"
-      });
-  const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Content-Length': requestBody.length,
-        }
-      };
-  const endpoint = `${process.env.endpoint}`;  // Replace with your actual GraphQL endpoint
-  return makeRequest.makeGRAPHQLRequest(endpoint,options,requestBody);  
-     
+  return buildGraphQL(query,variables,"questionContent");
 }
 
 
@@ -45,25 +47,7 @@ async function getSubmittedCode(submissionId) {
     const variables = {
       submissionId: parseInt(submissionId),
     };
-    const operationName = 'submissionDetails';
-    // GraphQL request payload
-    const requestBody = JSON.stringify({
-      query,
-      variables,
-      operationName,
-    });
-
-    const endpoint = `${process.env.endpoint}`;  // Replace with your actual GraphQL endpoint
-    // HTTP request options
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(requestBody),
-        'Cookie': `${process.env.Cookie}`,
-      },
-    };
-    return makeRequest.makeGRAPHQLRequest(endpoint,options,requestBody);
+    return buildGraphQL(query,variables,"submissionDetails");
 } 
 
 async function getRecentSubmission() {
@@ -82,25 +66,7 @@ async function getRecentSubmission() {
     username: `${process.env.username}`,
     limit: 20,
   };
-
-  const operationName = 'recentAcSubmissions';
-
-  // GraphQL request payload
-  const requestBody = JSON.stringify({
-    query,
-    variables,
-    operationName,
-  });
-  const endpoint = `${process.env.endpoint}`;  // Replace with your actual GraphQL endpoint
-  // HTTP request options
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Content-Length': Buffer.byteLength(requestBody),
-    },
-  };
-    return makeRequest.makeGRAPHQLRequest(endpoint,options,requestBody);
+  return buildGraphQL(query,variables,'recentAcSubmissions');
 }
 
 

@@ -2,7 +2,7 @@ const makeRequest = require("../request/makeRequest")
 
 async function createCommitReadme(problems) {
   const data = JSON.stringify({
-    branch: 'main',
+    branch: 'dev',
     commit_message: `Created Readme.md for ${problems.titleSlug}`,
     actions: [
       {
@@ -26,7 +26,7 @@ async function createCommitReadme(problems) {
 }
 async function createCommitCode(problems) {
   const data = JSON.stringify({
-    branch: 'main',
+    branch: 'dev',
     commit_message: `Created ${problems.titleSlug} folder`,
     actions: [
         {
