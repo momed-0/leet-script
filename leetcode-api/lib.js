@@ -18,6 +18,25 @@ async function buildGraphQL(query, variables,operationName) {
       return makeRequest.makeGRAPHQLRequest(endpoint,options,requestBody); 
     }
 
+async function getQuestionTags(titleSlug) {
+    const query = `
+          query singleQuestionTopicTags($titleSlug: String!) {
+        question(titleSlug: $titleSlug) {
+          topicTags {
+            name
+            slug
+          }
+        }
+      }
+      `;
+    const variables = {
+        titleSlug: `${titleSlug}`
+      };
+    return buildGraphQL(query, variables, 'singleQuestionTopicTags');
+}
+
+
+
 async function getProblemDesc(titleSlug) {
   const query = `
           query questionContent($titleSlug: String!) {
