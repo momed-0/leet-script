@@ -32,7 +32,8 @@ async function getQuestionTags(titleSlug) {
     const variables = {
         titleSlug: `${titleSlug}`
       };
-    return buildGraphQL(query, variables, 'singleQuestionTopicTags');
+    const operationName = 'singleQuestionTopicTags';
+    return buildGraphQL(query, variables, operationName);
 }
 
 
@@ -50,7 +51,8 @@ async function getProblemDesc(titleSlug) {
   const variables = {
         titleSlug: `${titleSlug}`
       };
-  return buildGraphQL(query,variables,"questionContent");
+  const operationName = 'questionContent';
+  return buildGraphQL(query,variables,operationName);
 }
 
 
@@ -66,7 +68,8 @@ async function getSubmittedCode(submissionId) {
     const variables = {
       submissionId: parseInt(submissionId),
     };
-    return buildGraphQL(query,variables,"submissionDetails");
+    const operationName = 'submissionDetails';
+    return buildGraphQL(query,variables,operationName);
 } 
 
 async function getRecentSubmission() {
@@ -85,7 +88,8 @@ async function getRecentSubmission() {
     username: `${process.env.username}`,
     limit: 20,
   };
-  return buildGraphQL(query,variables,'recentAcSubmissions');
+  const operationName = 'recentAcSubmissions';
+  return buildGraphQL(query,variables,operationName);
 }
 
 
