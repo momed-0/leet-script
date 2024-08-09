@@ -10,9 +10,10 @@ async function buildGraphQL(query, variables,operationName) {
   const options = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
-        },
-        body: requestBody
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(requestBody),
+          'Cookie': `${process.env.Cookie}`,
+        },  
       };
       const endpoint = `${process.env.endpoint}`;
       return makeRequest.makeGRAPHQLRequest(endpoint,options,requestBody); 
