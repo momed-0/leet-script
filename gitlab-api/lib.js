@@ -1,16 +1,10 @@
 const makeRequest = require("../request/makeRequest")
 
-async function createCommitReadme(problems) {
+async function createCommitReadme(action) {
   const data = JSON.stringify({
-    branch: 'dev',
-    commit_message: `Created Readme.md for ${problems.titleSlug}`,
-    actions: [
-      {
-        action: 'create',
-        file_path:`${problems.topic}/${problems.titleSlug}/readme.md`,
-        content: `${problems.content}`
-      }
-    ]
+    branch: 'main',
+    commit_message: `Created Readme.md`,
+    actions: action
   });
   const options = {
     hostname: 'gitlab.com',
@@ -24,17 +18,11 @@ async function createCommitReadme(problems) {
   };
   return await makeRequest.makeRESTAPIRequest(options,data);
 }
-async function createCommitCode(problems) {
+async function createCommitCode(action) {
   const data = JSON.stringify({
-    branch: 'dev',
-    commit_message: `Created ${problems.titleSlug} folder`,
-    actions: [
-        {
-            action: 'create',
-            file_path: `${problems.topic}/${problems.titleSlug}/${problems.titleSlug}-${problems.timeStamp}.cpp`, 
-            content: `${problems.code}`
-        }
-    ]
+    branch: 'main',
+    commit_message: `Created Code`,
+    actions: action
 });
   const options = {
     hostname: 'gitlab.com',
