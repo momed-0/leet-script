@@ -7,7 +7,7 @@ async function createCommitReadme(problems) {
     actions: [
       {
         action: 'create',
-        file_path:`${problems.titleSlug}/readme.md`,
+        file_path:`${problems.topic}/${problems.titleSlug}/readme.md`,
         content: `${problems.content}`
       }
     ]
@@ -31,7 +31,7 @@ async function createCommitCode(problems) {
     actions: [
         {
             action: 'create',
-            file_path: `${problems.titleSlug}/${problems.titleSlug}-${problems.timeStamp}.cpp`, 
+            file_path: `${problems.topic}/${problems.titleSlug}/${problems.titleSlug}-${problems.timeStamp}.cpp`, 
             content: `${problems.code}`
         }
     ]

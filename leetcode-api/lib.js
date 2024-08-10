@@ -95,6 +95,7 @@ async function getRecentSubmission() {
 
 
 module.exports = {
+  getQuestionTags,
     getRecentSubmission,
     getSubmittedCode,
     getProblemDesc    
